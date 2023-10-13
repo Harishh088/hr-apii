@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('Git checkout') {
           steps {
-                echo "${params.branchName}"
-               git branch: 'main', credentialsId: 'git-checkout', url: 'https://github.com/Harishh088/hr-apii'
+               git branch: "${params.branchName}", credentialsId: 'git-checkout', url: 'https://github.com/Harishh088/hr-apii'
             }
         }
         
