@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     stages {
-        stage('Git checkout') {
-            steps {
-                git branch: 'main', credentialsId: 'git-checkout', url: 'https://github.com/Harishh088/hr-apii'
-            }
-        }
+//        stage('Git checkout') {
+//            steps {
+//               git branch: 'main', credentialsId: 'git-checkout', url: 'https://github.com/Harishh088/hr-apii'
+//            }
+//        }
         
         stage('Maven build') {
             steps {
