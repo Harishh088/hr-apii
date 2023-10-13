@@ -1,39 +1,27 @@
-@Library('jhc') _
-
 pipeline {
     agent any
 
     stages {
-      
-        stage('Git Checkout') {
-             when{
-                expression{
-                    params.branchName == "develop"
-                }
-            }
+        stage('Git checkout') {
             steps {
-                git branch: "${params.branchName}", credentialsId: 'github-tokens', url: 'https://github.com/javahometech/hr-api'
+                git branch: 'main', credentialsId: 'git-checkout', url: 'https://github.com/Harishh088/hr-apii'
             }
         }
-        stage('Maven Build') {
-             when{
-                expression{
-                    params.branchName == "develop"
-                }
-            }
+        
+        stage('Maven build') {
             steps {
                 sh 'mvn clean package'
             }
         }
-        stage('Tomcat Deploy - Dev') {
+        
+        stage('Tomcat Deploy-Dev') {
             steps {
-                tomcatDeploy("ec2-user","172.31.82.238","tomcat-dev")
+               sshagent(['tomcat-dev']) {
+                 sh "scp -o StrictHostKeyChecking=no target/hr-api.war ec2-user@172.31.1.184:/opt/tomcat9/webapps"
+                 sh "ssh ec2-user@172.31.1.184 /opt/tomcat9/bin/shutdown.sh"
+                 sh "ssh ec2-user@172.31.1.184 /opt/tomcat9/bin/startup.sh"
+               } 
             }
         }
-    }
-    post {
-      always {
-        cleanWs()
-      }
     }
 }
