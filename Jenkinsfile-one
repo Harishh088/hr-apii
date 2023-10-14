@@ -2,13 +2,24 @@ pipeline {
     agent any
 
     stages {
+        
         stage('Git checkout') {
+          when {
+            expression {
+               params.name == "develop"
+             }
+           }
           steps {
                git branch: "${params.branchName}", credentialsId: 'git-checkout', url: 'https://github.com/Harishh088/hr-apii'
             }
         }
         
         stage('Maven build') {
+           when {
+            expression {
+               params.name == "develop"
+             }
+           }
             steps {
                 sh 'mvn clean package'
             }
