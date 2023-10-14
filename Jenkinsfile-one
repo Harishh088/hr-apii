@@ -26,6 +26,13 @@ pipeline {
             }
         }
 
+            stage('Check Workspace Contents') {
+              steps {
+                sh 'ls -l ${WORKSPACE}'
+               }
+             }
+
+
         stage('Tomcat Deploy-Dev') {
             steps {
                 sshagent(['tomcat-dev']) {
