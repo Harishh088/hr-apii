@@ -30,7 +30,7 @@ pipeline {
             steps {
                 sshagent(['tomcat-dev']) {
                     // Transfer the WAR file to the EC2 instance
-                    sh "scp -o StrictHostKeyChecking=no target/hr-api.war ec2-user@172.31.1.184:/opt/tomcat9/webapps"
+                    sh "scp target/hr-api.war ec2-user@172.31.1.184:/opt/tomcat9/webapps"
                     
                     // Stop and start Tomcat on the remote server
                     sh "ssh ec2-user@172.31.1.184 /opt/tomcat9/bin/shutdown.sh"
